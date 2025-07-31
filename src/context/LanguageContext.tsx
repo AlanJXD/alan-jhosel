@@ -1,11 +1,11 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { translations } from '../translations/translations';
+import { translations, type TranslationKey } from '../translations/translations';
 
 interface LanguageContextType {
   isSpanish: boolean;
   toggleLanguage: () => void;
   language: 'es' | 'en';
-  t: (key: keyof typeof translations.es) => string;
+  t: (key: TranslationKey) => string;
   isTransitioning: boolean;
 }
 
@@ -37,31 +37,18 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const toggleLanguage = () => {
     setIsTransitioning(true);
-    
-    // Añadir una animación de fade
-    document.body.style.transition = 'opacity 0.3s ease-in-out';
-    document.body.style.opacity = '0.7';
-    
     setTimeout(() => {
       setIsSpanish(prev => !prev);
-      
-      setTimeout(() => {
-        document.body.style.opacity = '1';
-        setIsTransitioning(false);
-        
-        // Limpiar estilos después de la animación
-        setTimeout(() => {
-          document.body.style.transition = '';
-        }, 300);
-      }, 150);
+      setTimeout(() => setIsTransitioning(false), 300);
     }, 150);
   };
 
-  const language = isSpanish ? 'es' : 'en';
-  
-  const t = (key: keyof typeof translations.es): string => {
-    return translations[language][key] || key;
+  const t = (key: TranslationKey): string => {
+    const lang = isSpanish ? 'es' : 'en';
+    return translations[lang][key] || key;
   };
+
+  const language = isSpanish ? 'es' : 'en';
 
   return (
     <LanguageContext.Provider value={{ isSpanish, toggleLanguage, language, t, isTransitioning }}>

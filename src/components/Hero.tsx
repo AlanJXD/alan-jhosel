@@ -1,76 +1,85 @@
 import React from 'react';
+import { HiCode } from 'react-icons/hi';
+import { useLanguage } from '../context/LanguageContext';
 
-const Hero: React.FC = () => {
+const Hero = () => {
+  const { t, isTransitioning } = useLanguage();
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <section id="inicio" className="min-h-screen bg-black text-white pt-20 px-4 flex items-center relative light-effects">
-      <div className="max-w-6xl mx-auto w-full">
+    <section id="inicio" className="min-h-screen bg-transparent text-white pt-20 px-4 flex items-center relative">
+      {/* Efectos de luz locales para Hero */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-red-600/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-yellow-400/8 rounded-full blur-2xl"></div>
+      </div>
+      
+      <div className="max-w-6xl mx-auto w-full relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center mb-12">
           <div className="space-y-8">
-            <div>
-              <h1 className="text-2xl md:text-3xl font-light mb-2 text-gray-300">
+            <div className={isTransitioning ? 'language-transition' : ''}>
+              <h1 className="text-2xl md:text-3xl lg:text-4xl font-light mb-2 text-gray-300">
                 Alan Jhosel
               </h1>
-              <h2 className="text-4xl md:text-6xl font-light leading-tight">
-                Desarrollador de
+              <h2 className="text-4xl md:text-6xl lg:text-7xl font-light leading-tight">
+                {t('developer')}
                 <br />
                 <span className="bg-gradient-to-r from-red-600 to-yellow-400 bg-clip-text text-transparent font-bold">
-                  Software
+                  {t('software')}
                 </span>
               </h2>
             </div>
             
-            <div className="flex gap-12">
+            <div className={`flex gap-12 ${isTransitioning ? 'language-transition' : ''}`}>
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-white">Frontend</div>
-                <div className="text-xs text-gray-400 uppercase tracking-wider">ESPECIALIDAD</div>
+                <div className="text-3xl md:text-4xl lg:text-4xl font-bold text-white">{t('frontendHero')}</div>
+                <div className="text-xs md:text-sm text-gray-400 uppercase tracking-wider">{t('specialty')}</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-white">Fullstack</div>
-                <div className="text-xs text-gray-400 uppercase tracking-wider">CAPACIDAD</div>
+                <div className="text-3xl md:text-4xl lg:text-4xl font-bold text-white">{t('fullstack')}</div>
+                <div className="text-xs md:text-sm text-gray-400 uppercase tracking-wider">{t('capability')}</div>
               </div>
             </div>
 
-            <p className="text-gray-300 text-lg leading-relaxed max-w-lg">
-              Especializado en desarrollo frontend con React y tecnologías modernas.
-              <br />
-              También manejo backend para proyectos fullstack completos.
+            <p className={`text-gray-300 text-lg md:text-xl leading-relaxed max-w-lg ${isTransitioning ? 'language-transition' : ''}`}>
+              {t('heroDescription').split('\n').map((line: string, index: number) => (
+                <React.Fragment key={index}>
+                  {line}
+                  {index < t('heroDescription').split('\n').length - 1 && <br />}
+                </React.Fragment>
+              ))}
             </p>
 
-            <button className="shimmer bg-gradient-to-r from-red-600 to-yellow-400 hover:from-red-500 hover:to-yellow-300 text-white font-semibold py-4 px-8 rounded-full uppercase tracking-wider transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg hover:shadow-red-500/25">
-              Comenzar
+            <button 
+              onClick={() => scrollToSection('sobre-mi')}
+              className={`shimmer-white bg-transparent border-2 border-white/50 hover:bg-white/10 text-white font-semibold py-4 px-8 md:py-4 md:px-10 rounded-full uppercase tracking-wider text-sm md:text-base transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl hover:shadow-white/25 cursor-pointer ${isTransitioning ? 'language-transition' : ''}`}
+            >
+              {t('start')}
             </button>
           </div>
 
           <div className="flex justify-center items-center">
             <div className="relative w-80 h-80">
-              <div className="animate-float w-full h-full rounded-full bg-gradient-to-br from-red-600 to-yellow-400 relative overflow-hidden shadow-2xl shadow-red-500/30">
-                <div className="absolute inset-0">
-                  {/* Elementos flotantes dentro del círculo */}
-                  <div className="absolute w-6 h-6 bg-gradient-to-r from-red-400 to-yellow-300 rounded-full top-[15%] left-[25%] animate-element-float opacity-80" style={{animationDelay: '0s'}}></div>
-                  <div className="absolute w-5 h-5 bg-gradient-to-r from-yellow-400 to-red-400 rounded-full top-[35%] right-[20%] animate-element-float opacity-70" style={{animationDelay: '1s'}}></div>
-                  <div className="absolute w-7 h-7 bg-gradient-to-r from-red-500 to-yellow-400 rounded-full bottom-[25%] left-[15%] animate-element-float opacity-90" style={{animationDelay: '2s'}}></div>
-                  <div className="absolute w-5 h-5 bg-gradient-to-r from-yellow-300 to-red-500 rounded-full top-[55%] left-[40%] animate-element-float opacity-75" style={{animationDelay: '0.5s'}}></div>
-                  <div className="absolute w-6 h-6 bg-gradient-to-r from-red-600 to-yellow-300 rounded-full bottom-[35%] right-[25%] animate-element-float opacity-85" style={{animationDelay: '1.5s'}}></div>
-                  <div className="absolute w-4 h-4 bg-gradient-to-r from-yellow-400 to-red-400 rounded-full top-[25%] right-[35%] animate-element-float opacity-80" style={{animationDelay: '2.5s'}}></div>
-                  <div className="absolute w-6 h-6 bg-gradient-to-r from-red-500 to-yellow-400 rounded-full bottom-[15%] left-[45%] animate-element-float opacity-75" style={{animationDelay: '3s'}}></div>
-                  <div className="absolute w-4 h-4 bg-gradient-to-r from-yellow-300 to-red-500 rounded-full top-[70%] right-[40%] animate-element-float opacity-90" style={{animationDelay: '3.5s'}}></div>
+              <div className="animate-float w-full h-full rounded-full bg-gradient-to-br from-red-600 to-yellow-400 relative overflow-hidden shadow-2xl shadow-red-500/30 flex items-center justify-center">
+                <div className="absolute inset-0 bg-black/20"></div>
+                <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <div className="relative z-10">
+                  <HiCode className="w-20 h-20 text-white" />
                 </div>
-                
-                {/* Resplandor exterior */}
-                <div className="absolute -inset-8 bg-gradient-to-r from-red-600/20 to-yellow-400/20 rounded-full animate-pulse-glow blur-xl"></div>
               </div>
+              
+              <div className="absolute -z-10 w-full h-full rounded-full bg-gradient-to-br from-red-600/30 to-yellow-400/30 blur-xl transform scale-110"></div>
             </div>
           </div>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-4">
-          <span className="bg-gray-800/50 backdrop-blur-sm text-gray-300 px-4 py-2 rounded-full text-sm border border-gray-700 hover:-translate-y-1 transition-transform duration-300">React</span>
-          <span className="bg-gradient-to-r from-red-600 to-yellow-400 text-white px-4 py-2 rounded-full text-sm font-medium hover:-translate-y-1 transition-transform duration-300">Frontend</span>
-          <span className="bg-gray-800/50 backdrop-blur-sm text-gray-300 px-4 py-2 rounded-full text-sm border border-gray-700 hover:-translate-y-1 transition-transform duration-300">TypeScript</span>
-          <span className="bg-gray-800/50 backdrop-blur-sm text-gray-300 px-4 py-2 rounded-full text-sm border border-gray-700 hover:-translate-y-1 transition-transform duration-300">Node.js</span>
-          <span className="bg-gray-800/50 backdrop-blur-sm text-gray-300 px-4 py-2 rounded-full text-sm border border-gray-700 hover:-translate-y-1 transition-transform duration-300">JavaScript</span>
-          <span className="bg-gray-800/50 backdrop-blur-sm text-gray-300 px-4 py-2 rounded-full text-sm border border-gray-700 hover:-translate-y-1 transition-transform duration-300">Responsive</span>
-        </div>
+        {/* Removed floating border/gradient line below the button */}
       </div>
     </section>
   );

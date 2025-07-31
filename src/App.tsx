@@ -1,4 +1,4 @@
-import { ThemeProvider } from './context/ThemeContext';
+import { LanguageProvider } from './context/LanguageContext';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -8,7 +8,7 @@ import Footer from './components/Footer';
 
 function App() {
   return (
-    <ThemeProvider>
+    <LanguageProvider>
       <div className="App">
         <Navbar />
         <Hero />
@@ -17,7 +17,7 @@ function App() {
         <Contact />
         <Footer />
       </div>
-    </ThemeProvider>
+    </LanguageProvider>
   );
 }
 
